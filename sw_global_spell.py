@@ -28,10 +28,10 @@ def make_matrix(xdim, ydim, penalty):
     return A
 
 
-def local_align(x, y, score, opto):
+def local_align(x, y, score):
     """Return the best score for local alignment between two strings."""
     A = make_matrix(len(x) + 1, len(y) + 1, score.mismatch)
-    best = opto
+    best = 0
 
     for ii in range(1, len(y) + 1):
         for jj in range(1, len(x) + 1):
@@ -55,13 +55,13 @@ def get_words(fn):
     return([word.strip() for word in words])
 
 
-def the_best_words(strang, fn, score, opto):
+def the_best_words(strang, fn, score):
     """Print the result of checking a list of common words against input."""
     words = get_words(fn)
     best = 0
     best_words = []
     for word in words:
-        t = local_align(strang, word, score, opto)
+        t = local_align(strang, word, score)
         if word == strang:
             t = best
             if len(best_words) > 0:
@@ -115,6 +115,6 @@ else:
     score = Score(2, -1, -2)
 
 try:
-    the_best_words(s1, fn1, score, 0)
+    the_best_words(s1, fn1, score)
 except Exception:
-    the_best_words(s1, fn2, score, 0)
+    the_best_words(s1, fn2, score)
